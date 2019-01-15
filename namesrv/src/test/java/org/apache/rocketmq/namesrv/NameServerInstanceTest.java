@@ -46,6 +46,11 @@ public class NameServerInstanceTest {
         //maybe need to clean the file store. But we do not suggest deleting anything.
     }
 
+    /**
+     * 调试namesrv启动
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         NamesrvConfig namesrvConfig=new NamesrvConfig();
         NettyServerConfig nettyServerConfig=new NettyServerConfig();
