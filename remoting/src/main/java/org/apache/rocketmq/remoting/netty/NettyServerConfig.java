@@ -18,16 +18,16 @@ package org.apache.rocketmq.remoting.netty;
 
 public class NettyServerConfig implements Cloneable {
     private int listenPort = 8888;
-    private int serverWorkerThreads = 8;
-    private int serverCallbackExecutorThreads = 0;
-    private int serverSelectorThreads = 3;
-    private int serverOnewaySemaphoreValue = 256;
-    private int serverAsyncSemaphoreValue = 64;
-    private int serverChannelMaxIdleTimeSeconds = 120;
+    private int serverWorkerThreads = 8;  //netty 服务工作线程数
+    private int serverCallbackExecutorThreads = 0; //netty异步回调线程池数量
+    private int serverSelectorThreads = 3;  //netty selector线程数
+    private int serverOnewaySemaphoreValue = 256;  //控制单向的信号量
+    private int serverAsyncSemaphoreValue = 64;   //控制异步信号量
+    private int serverChannelMaxIdleTimeSeconds = 120; //服务空闲心跳检测时间间隔 s
 
-    private int serverSocketSndBufSize = NettySystemConfig.socketSndbufSize;
-    private int serverSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;
-    private boolean serverPooledByteBufAllocatorEnable = true;
+    private int serverSocketSndBufSize = NettySystemConfig.socketSndbufSize;  //发送缓存区大小
+    private int serverSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;  //接收缓存区大小
+    private boolean serverPooledByteBufAllocatorEnable = true;  //是否使用netty内存池
 
     /**
      * make make install
@@ -36,7 +36,7 @@ public class NettyServerConfig implements Cloneable {
      * ../glibc-2.10.1/configure \ --prefix=/usr \ --with-headers=/usr/include \
      * --host=x86_64-linux-gnu \ --build=x86_64-pc-linux-gnu \ --without-gd
      */
-    private boolean useEpollNativeSelector = false;
+    private boolean useEpollNativeSelector = false;  //是否使用epoll
 
     public int getListenPort() {
         return listenPort;
