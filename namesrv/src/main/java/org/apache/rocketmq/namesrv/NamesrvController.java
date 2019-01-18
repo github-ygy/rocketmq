@@ -42,9 +42,9 @@ import java.util.concurrent.TimeUnit;
 
 public class NamesrvController {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
-
+    //namesrc配置信息
     private final NamesrvConfig namesrvConfig;
-
+    //通信层配置
     private final NettyServerConfig nettyServerConfig;
     //任务线程池用来启动namesrv，管理broker信息
     private final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl(
@@ -54,13 +54,13 @@ public class NamesrvController {
     //链接信息管理器
     private final RouteInfoManager routeInfoManager;
 
-    //远程服务接口（使用netty）
+    //远程服务接口（使用netty）服务端通信层对象
     private RemotingServer remotingServer;
 
     //broker事件监听器
     private BrokerHousekeepingService brokerHousekeepingService;
 
-    //远程消息的并发处理
+    //服务端网络请求处理线程
     private ExecutorService remotingExecutor;
     //配置信息
     private Configuration configuration;
@@ -70,7 +70,7 @@ public class NamesrvController {
         this.namesrvConfig = namesrvConfig;
         this.nettyServerConfig = nettyServerConfig;
         this.kvConfigManager = new KVConfigManager(this);
-        this.routeInfoManager = new RouteInfoManager();
+        this.routeInfoManager = new RouteInfoManager(); //路由信息 topic信息管理
         this.brokerHousekeepingService = new BrokerHousekeepingService(this);
         this.configuration = new Configuration(
             log,
@@ -83,7 +83,7 @@ public class NamesrvController {
 
         //加载kv配置信息
         this.kvConfigManager.load();
-        //配置nettyservice信息
+        //初始化通信层，配置nettyservice信息
         this.remotingServer = new NettyRemotingServer(this.nettyServerConfig, this.brokerHousekeepingService);
         //远程服务请求处理线程池
         this.remotingExecutor =
@@ -160,7 +160,7 @@ public class NamesrvController {
             this.remotingServer.registerDefaultProcessor(new DefaultRequestProcessor(this), this.remotingExecutor);
         }
     }
-
+    //远程服务启动
     public void start() throws Exception {
         this.remotingServer.start();
 
