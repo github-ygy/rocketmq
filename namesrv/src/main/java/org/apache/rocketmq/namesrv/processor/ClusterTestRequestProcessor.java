@@ -64,6 +64,9 @@ public class ClusterTestRequestProcessor extends DefaultRequestProcessor {
             topicRouteData.setOrderTopicConf(orderTopicConf);
         } else {
             try {
+                /**
+                 * 从namesrc其他地址中获取topic信息
+                 */
                 topicRouteData = adminExt.examineTopicRouteInfo(requestHeader.getTopic());
             } catch (Exception e) {
                 log.info("get route info by topic from product environment failed. envName={},", productEnvName);
