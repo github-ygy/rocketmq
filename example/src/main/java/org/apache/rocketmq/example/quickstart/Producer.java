@@ -31,7 +31,7 @@ public class Producer {
         /*
          * Instantiate with a producer group name.
          */
-        DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+        DefaultMQProducer producer = new DefaultMQProducer("test-produce");
 
         /*
          * Specify name server addresses.
@@ -44,13 +44,20 @@ public class Producer {
          * }
          * </pre>
          */
+        producer.setNamesrvAddr("127.0.0.1:9876");
 
         /*
          * Launch the instance.
          */
         producer.start();
+        producer.setDefaultTopicQueueNums();
+        producer.getDefaultMQProducerImpl().registerCheckForbiddenHook();
 
-        for (int i = 0; i < 1000; i++) {
+        DefaultMQProducer producer2 = new DefaultMQProducer("ProducerGroupName");
+        producer2.setNamesrvAddr("127.0.0.1:9876");
+        producer2.start();
+
+        for (int i = 0; i < 10; i++) {
             try {
 
                 /*
@@ -72,7 +79,7 @@ public class Producer {
                 Thread.sleep(1000);
             }
         }
-
+        Thread.sleep(10000000);
         /*
          * Shut down once the producer instance is not longer in use.
          */
